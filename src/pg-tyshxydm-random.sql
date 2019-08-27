@@ -38,7 +38,7 @@ BEGIN
 		ysdm_18 := '["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
 								"A", "B", "C", "D", "E", "F", "G", "H", "J", 
 								"K", "L", "M", "N",  "P","Q","R",  "T", 
-								"U", "V", "W", "X"]'::json;
+								"U",  "W", "X"]'::json;
 		jqyz_18 :='[1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28]'::json;
 		jqyz_9 :='[3, 7, 9, 10, 5, 8, 4, 2]'::json;
 		--本体代码
@@ -49,7 +49,7 @@ BEGIN
 		random_dm := '';
 		WHILE i < 17 LOOP
 			
-			total := total + (jqyz_18 -> i)::text::INTEGER	* ((ysgx_9 -> substr(btdm, i+1, 1))::text::INTEGER);
+			total := total + (jqyz_18 -> i)::text::INTEGER	* ((ysgx_18 -> substr(btdm, i+1, 1))::text::INTEGER);
 -- 			raise notice 'btdm 为： % ',ysgx_9 -> substr(btdm, i+1, 1);
 			i := i + 1;
 		END LOOP;
@@ -94,9 +94,9 @@ BEGIN
 						"Q": 26,"R": 27, "S": 28, "T": 29, "U": 30, "V": 31, "W": 32, "X": 33, "Y": 34,
 						"Z": 35}'::json;
 		ysdm_9 := '["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
-							"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", 
-							"K", "L", "M", "N", "O", "P","Q","R", "S", "T", 
-							"U", "V", "W", "X", "Y","Z"]'::json;
+							"A", "B", "C", "D", "E", "F", "G", "H",  "J", 
+							"K", "L", "M", "N",  "P","Q","R",  "T", 
+							"U",  "W", "X", "Y"]'::json;
 		ysdm_18 := '["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
 								"A", "B", "C", "D", "E", "F", "G", "H", "J", 
 								"K", "L", "M", "N",  "P","Q","R",  "T", 
@@ -107,7 +107,7 @@ BEGIN
 		btdm := '';
 		random_dm := '';
 		WHILE i < 8 LOOP
-			random_dm :=  ysdm_9->floor(random()*36)::integer;
+			random_dm :=  ysdm_9->floor(random()*31)::integer;
 			btdm := btdm || random_dm :: VARCHAR;
 -- 			raise notice 'btdm 为： % ',btdm;
 			total := total + (jqyz_9 -> i)::text::INTEGER	* ((ysgx_9->replace(random_dm,'"',''))::text::INTEGER);
