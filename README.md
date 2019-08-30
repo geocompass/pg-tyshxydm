@@ -14,7 +14,7 @@
 ```sql
  -- 参数为六位行政区划代码
  -- 返回值为18位统一社会信用代码
- select random_tyshxydm_18('110108') 
+ select random_tyshxydm_18('110108')   
 ```
 - 验证统一社会信用代码是否正确
 ```sql

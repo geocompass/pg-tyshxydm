@@ -4,11 +4,8 @@ DECLARE
 		is_correct      BOOLEAN;
 		ysgx_18         JSON;--18位的映射关系
 		jqyz_18         JSON;--18位的加权因子
---     jqyz_18         VARCHAR;
 		ysgx_9          JSON;--9位的映射关系
-		jqyz_9          JSON;--9位的加权因子
---     jqyz_9          VARCHAR; 
-		
+		jqyz_9          JSON;--9位的加权因子	
 		Ancode          VARCHAR; --统一社会信用代码的每一个值
 		Ancodevalue     int; --统一社会信用代码每一个值的权重
 		total           int;
@@ -24,10 +21,8 @@ DECLARE
 		elementB        int;
 		elementD        int;
 BEGIN
-raise NOTICE '0的值为： %',is_correct ;
+-- raise NOTICE '0的值为： %',is_correct ;
 		is_correct := true;
-		
-		raise NOTICE '0的值为： %',is_correct ;
 		ysgx_18 :='{"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, 
 		"9": 9, "A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15, "G": 16, "H": 17, 
 		"J": 18, "K": 19, "L": 20, "M": 21, "N": 22, "P": 23, "Q": 24, "R": 25, "T": 26, 
@@ -37,7 +32,7 @@ raise NOTICE '0的值为： %',is_correct ;
 		"H": 17, "I": 18, "J": 19, "K": 20, "L": 21, "M": 22, "N": 23, "O": 24, "P": 25,
 		"Q": 26,"R": 27, "S": 28, "T": 29, "U": 30, "V": 31, "W": 32, "X": 33, "Y": 34,
 		"Z": 35}'::json;
-    jqyz_18 :='{"0":1,"1":3,"2":9,"3":27,"4":19,"5":26,"6":16,"7":17,"8":20,"9":29,"10":25,"11":13,      "12":8,"13":24,"14":10,"15":30,"16":28}'::json;
+    jqyz_18 :='{"0":1,"1":3,"2":9,"3":27,"4":19,"5":26,"6":16,"7":17,"8":20,"9":29,"10":25,"11":13,"12":8,"13":24,"14":10,"15":30,"16":28}'::json;
     jqyz_9 :='{"0":3,"1":7,"2":9,"3":10, "4":5, "5":8, "6":4, "7":2}'::json;
 		 y_arr:= '{"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, 
 		"9": 9, "10":"A" ,"11":"B" , "12":"C" ,"13" :"D" , "14":"E" , "15":"F" , "16":"G" ,"17" :"H" , 
@@ -69,14 +64,13 @@ raise NOTICE '0的值为： %',is_correct ;
 			total := total + Ancodevalue * elementA;
 			i:=i+1;
 		end Loop;
-		
 		logiccheckcode = 31-(total % 31);
 		if(logiccheckcode::int = 31) then
 			logiccheckcode := 0;
 		END IF ;
 		
 		logiccheckcode := y_arr->logiccheckcode;
-		
+		logiccheckcode:="replace"(logiccheckcode, '"', '');
 		if(logiccheckcode::VARCHAR != substr(tyshxydm,18,1)) THEN
 		    is_correct := false;
 				return is_correct;
@@ -97,21 +91,18 @@ raise NOTICE '0的值为： %',is_correct ;
 				 i:=i+1;
 			 end Loop;
 			jymCode := 11 - countSum % 11;
--- 		 	raise NOTICE 'jymCode的值为： %',jymCode ;
 		 if jymCode =10 then 
 			 if (length(tyshxydm) =9 and  substr(tyshxydm,9, 1) = "X") then
 				is_correct := true;
 				return  is_correct;
 				end if ;
 			end if ;
--- 			raise NOTICE '17的值为： %',is_correct ;
 			 if jymCode =11 then 
 				 if (length(tyshxydm) =9 and  substr(tyshxydm,9, 1) = "0") then
 					is_correct := true;
 					end if ;
 			end if ;
 			  elementD := ysgx_18->substr(tyshxydm,9,1);
--- 				raise NOTICE 'd： %',d ;
 				if elementD!=jymCode then 
 				is_correct := false;
 				return  is_correct;
